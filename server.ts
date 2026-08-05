@@ -14,7 +14,8 @@ import { MENU_ITEMS } from './src/data/menu';
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+// Respect the hosting platform's assigned port if provided
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
@@ -186,7 +187,7 @@ app.post('/api/barista/chat', async (req: Request, res: Response) => {
   const systemInstruction = `You are "The Melted Sommelier" - the charming, passionate, and witty AI Head Barista of Meltado Cafe & Bakery located in Kiran Vihar, Karkardooma, New Delhi.
 Your job is to assist patrons in selecting their perfect treat, suggest coffee and pastry pairings, explain secret recipes, and handle custom baking questions.
 
-Meltado's vibe: Cozy, indulgent, chocolaty, warm wood-toned standalone premium artisanal shop. We focus on molten textures, cheese pulls, premium espresso craft, marshmallow stacks, and warm sourdough.
+Meltado's vibe: Cozy, indulgent, chocolaty, warm wood-toned standalone premium artisanal shop. We focus on molten textures, cheese pulls, premium espresso craft, marshmallow stacks, and warm sour[...] 
 
 Here is Meltado's current official menu:
 ${formattedMenuJson}
@@ -196,18 +197,18 @@ Rules for response style:
 2. You MUST strictly recommend items from the official Meltado menu above. Do not claim to offer food items not in our inventory.
 3. Suggest perfect pairings! (e.g. recommend pairing a savory "Ultimate Sourdough Cheese Melt" with the rich "Meltado Hot Cocoa" or a "Spanish Latte" with a "Cookie-Dough Lava Croissant").
 4. If they want a customized drink or dessert, guide them toward our interactive "Melt Bar" feature on the website to build their customized ticket!
-5. Speak casually, like a top-tier friendly barista who knows everyone in East Delhi. Keep responses relatively short (2-4 sentences max per statement) so it feels like a snappy coffee shop chat. Don't be overly formal. Mention our home base in Karkardooma naturally if asked or appropriate.
+5. Speak casually, like a top-tier friendly barista who knows everyone in East Delhi. Keep responses relatively short (2-4 sentences max per statement) so it feels like a snappy coffee shop chat.[...]
 
-If the user asks for a recommendation, return your written chat response, AND list the specific item IDs associated, so our UI can highlight them! In your text response, mention the names beautifully.`;
-
+If the user asks for a recommendation, return your written chat response, AND list the specific item IDs associated, so our UI can highlight them! In your text response, mention the names beautif[...]`;
+  
   if (!aiClient) {
     // Fallback response generator if Gemini key is missing
     setTimeout(() => {
-      let fallbackText = "Hello from Meltado! We're baking some delicious treats in Karkardooma. I would love to recommend our classic Meltado Hot Cocoa with sweet toasted marshmallow fluff, paired perfectly with the warm Cookie-Dough Lava Croissant!";
+      let fallbackText = "Hello from Meltado! We're baking some delicious treats in Karkardooma. I would love to recommend our classic Meltado Hot Cocoa with sweet toasted marshmallow fluff, pair[...]";
       if (userPrompt.toLowerCase().includes('cheese') || userPrompt.toLowerCase().includes('savory') || userPrompt.toLowerCase().includes('sandwich')) {
-        fallbackText = "Ah, craving something warm and savory! I highly recommend our Ultimate Sourdough Cheese Melt—full of mature English Cheddar and molten Swiss Gruyere—paired perfectly with a Spanish Latte for that creamy sweet balance.";
+        fallbackText = "Ah, craving something warm and savory! I highly recommend our Ultimate Sourdough Cheese Melt—full of mature English Cheddar and molten Swiss Gruyere—paired perfectly w[...]";
       } else if (userPrompt.toLowerCase().includes('cold') || userPrompt.toLowerCase().includes('summer') || userPrompt.toLowerCase().includes('iced')) {
-        fallbackText = "To beat the heat, try our active-charcoal Charcoal Mocha poured over ice, or our signature Orange Cold Brew Tonic. They pair exceptionally well with the grilled Peri-Peri Paneer Slider!";
+        fallbackText = "To beat the heat, try our active-charcoal Charcoal Mocha poured over ice, or our signature Orange Cold Brew Tonic. They pair exceptionally well with the grilled Peri-Peri [...";
       }
       res.json({ text: fallbackText });
     }, 845);
