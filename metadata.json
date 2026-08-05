@@ -1,0 +1,6 @@
+{
+  "name": "Meltado",
+  "description": "Bespoke digital home, interactive gourmet menu, dynamic beverage & pastry simulator, and AI master pairing barista for Meltado Cafe in New Delhi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
